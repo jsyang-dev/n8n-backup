@@ -1,0 +1,299 @@
+{
+  "active": true,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Vaiables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Vaiables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vaiables": {
+      "main": [
+        [
+          {
+            "node": "Get Pull Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Pull Request": {
+      "main": [
+        [
+          {
+            "node": "OpenAI1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI1": {
+      "main": [
+        [
+          {
+            "node": "Refine Results1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Refine Results1": {
+      "main": [
+        [
+          {
+            "node": "Filter by Priority",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "OpenAI1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-06-08T04:23:50.949Z",
+  "id": "Xhbh6uY2ZPl42k6t",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "코드 리뷰",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ec464db8-8d7b-47d6-bef3-b19a2aa7f045",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "68f5ca69-a038-47c1-b8ae-d407ea5f5297",
+      "name": "Webhook",
+      "webhookId": "ec464db8-8d7b-47d6-bef3-b19a2aa7f045"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -160
+      ],
+      "id": "8c733cf2-18e9-431b-8d1c-07f4d0b9351a",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d1d73897-602e-4723-b015-d228ff51e5da",
+              "name": "workflowUrl",
+              "value": "http://localhost:5678/workflow/Z0PtaUOTDU8DLYTU",
+              "type": "string"
+            },
+            {
+              "id": "19806d7c-b6e4-4025-8641-ee5c44f93912",
+              "name": "defaultPackage",
+              "value": "com.example",
+              "type": "string"
+            },
+            {
+              "id": "9491cacd-de1e-4ca2-96bc-52268736ad8b",
+              "name": "allowedPackages",
+              "value": "[\"domain.model\", \"domain.event\", \"domain.exception\", \"application.service\", \"application.port.in\", \"application.port.out\", \"adapter.in.web\", \"adapter.in.event\", \"adapter.out.persistence\", \"adapter.out.event\", \"adapter.out.external\"]",
+              "type": "array"
+            },
+            {
+              "id": "7d9b085a-8884-4719-ad9c-b55d024bdfcc",
+              "name": "allowedSuffixes",
+              "value": "={\n  \"rules\": [\n    { \"package\": \"application.service\", \"suffix\": [\"CommandService\", \"QueryService\"] },\n    { \"package\": \"application.port.in\", \"suffix\": [\"CommandUseCase\", \"QueryUseCase\"] },\n    { \"package\": \"application.port.out\", \"suffix\": [\"Port\"] },\n    { \"package\": \"adapter.in.web\", \"suffix\": [\"Controller\"] },\n    { \"package\": \"adapter.out.persistence\", \"suffix\": [\"MasterMapper\", \"ReadMapper\"] },\n    { \"package\": \"adapter.out.external\", \"suffix\": [\"Adapter\"] }\n  ]\n}",
+              "type": "object"
+            },
+            {
+              "id": "8342b586-4dee-4aa2-9264-09eaa3acf34c",
+              "name": "owner",
+              "value": "={{ $json.body.owner }}",
+              "type": "string"
+            },
+            {
+              "id": "930a425a-b829-4a09-9c6a-d311ae1cca63",
+              "name": "repo",
+              "value": "={{ $json.body.repo }}",
+              "type": "string"
+            },
+            {
+              "id": "277fe591-ca54-4206-a52b-38cf85b441fc",
+              "name": "pullNumber",
+              "value": "={{ $json.body.pullNumber }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        220,
+        0
+      ],
+      "id": "9f97d977-4b0e-424a-8a33-df5807cc0d1d",
+      "name": "Vaiables"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.github.com/repos/{{ $json.owner }}/{{ $json.repo }}/pulls/{{ $json.pullNumber }}/files",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubApi",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        0
+      ],
+      "id": "b9ce29ef-76c1-4144-8c4f-6e82d7150e36",
+      "name": "Get Pull Request",
+      "credentials": {
+        "githubApi": {
+          "id": "OYItXu3TJaqpVZ8S",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. 전역변수에서 기준 priority 가져오기\nconst globalVars = $('Vaiables').first().json;\nconst thresholdPriority = (globalVars.priority || 'high').toLowerCase();\n\n// 2. 우선순위 매핑\nconst priorityLevels = {\n  critical: 3,\n  high: 2,\n  medium: 1,\n  low: 0\n};\n\nconst minLevel = priorityLevels[thresholdPriority] ?? 2; // fallback: high\n\n// 3. 필터링 수행\nconst results = [];\n\nfor (const item of items) {\n  const filteredReviews = (item.json.reviews || []).filter(r => {\n    const level = priorityLevels[r.priority?.toLowerCase()] ?? -1;\n    return level >= minLevel;\n  });\n\n  if (filteredReviews.length > 0) {\n    results.push({ json: { reviews: filteredReviews } });\n  }\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1260,
+        0
+      ],
+      "id": "c32a0cbf-c120-448b-8442-5ae67a49f049",
+      "name": "Filter by Priority",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=당신은 숙련된 시니어 백엔드 개발자입니다. 아래 원칙에 따라 코드 리뷰를 수행하세요.\n\n## 🎯 리뷰 목적\n실질적인 **버그** 또는 **잠재적인 문제점**이 있는 코드 라인에만 피드백을 남기세요.  \n단순한 코드 스타일, 성능 개선, 리팩토링 아이디어는 절대 포함하지 마세요.\n\n## ✅ 포함해야 하는 항목 (반드시 리뷰해야 함)\n- 실제 동작 오류를 발생시킬 가능성이 있는 코드\n- 예외 처리 누락 (null 체크, try-catch 미처리 등)\n- 데이터 손실 가능성 (값 덮어쓰기, 삭제, 인코딩 오류 등)\n- 보안 위험 (하드코딩된 비밀번호, 입력 검증 누락 등)\n- 함수나 메서드가 명시된 목적과 다르게 사용된 경우\n\n## ❌ 제외해야 하는 항목 (리뷰하지 말아야 함)\n- 코드 스타일 (들여쓰기, 줄 바꿈, import 정렬 등)\n- 변수, 메서드, 클래스의 네이밍 품질\n- 함수가 너무 길다거나 작은 메서드로 나누는 등의 리팩토링 제안\n- 성능 최적화 아이디어 (루프 효율, 캐싱 등)\n- 코드 구조나 설계 방식 변경 제안\n\n## 🏷️ Priority 등급 (반드시 아래 중 하나만 사용)\n| 값        | 설명                                                             |\n|-----------|------------------------------------------------------------------|\n| **critical** | 즉시 수정하지 않으면 시스템 장애·데이터 손실을 유발할 치명적 버그 |\n| **high**     | 기능 오류·데이터 불일치 등 사용자 영향이 큰 문제              |\n| **medium**   | 특정 조건에서만 발생하거나 우회 방법이 있는 문제               |\n| **low**      | 경미한 로직 오류·예외적 상황에서만 영향                        |\n\n## 📌 매우 중요한 지침: 리뷰 대상 라인 번호 구하기\n\n`line`은 OpenAI가 직접 계산하지 않습니다.  \n대신 리뷰가 필요한 코드 줄 (`commentLine`)을 추출해주면, OpenAI 외부에서 Code Tool(calculate_comment_line_number)이 patch 내에서 해당 줄을 찾아 실제 줄 번호를 계산합니다.\n\nCode Tool(calculate_comment_line_number)은 `query` 객체로 다음과 같은 입력을 받습니다:\n\n```json\n{\n  \"patch\": \"입력받은 patch 값 그대로 전달\",\n  \"commentLine\": \"if (!this.userId.equals(requestUserId))\"  // 리뷰 대상이 되는 라인\n}\n```\n\n결과는 라인 번호를 나타내는 **단일 문자열(string)**로 반환되어야 합니다.\n\n## 출력 형식\n아래 JSON 배열 형식으로만 응답하세요. 그 외의 텍스트는 포함하지 마세요.\n\n[\n  {\n    \"file\": \"파일명.java\",\n    \"line\": 7, // 리뷰가 필요한 라인 번호\n    \"comment\": \"문제가 되는 이유를 간단히 설명\",\n    \"priority\": \"high\"\n  }\n]",
+              "role": "system"
+            },
+            {
+              "content": "=다음은 PR에서 변경된 코드 json입니다:\n\n{{ JSON.stringify($json, null, 2) }}\n\n오직 실질적인 오류와 위험에만 집중해주세요."
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        660,
+        0
+      ],
+      "id": "5122749f-ec26-4c7e-965e-9b3ec9be9f9d",
+      "name": "OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "mNBU5lSqo1M9WYgW",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const reviews = [];\n\nfor (const item of items) {\n  const content = item.json.message?.content;\n  if (!content) continue;\n\n  try {\n    // 문자열로 온 경우 JSON 파싱\n    const parsed = typeof content === 'string' ? JSON.parse(content) : content;\n\n    // case 1: content.review가 배열인 경우 (여러 리뷰)\n    if (Array.isArray(parsed.review)) {\n      reviews.push(...parsed.review);\n    }\n\n    // case 2: content 자체가 단일 리뷰 객체인 경우\n    else if (parsed?.file && parsed?.line && parsed?.comment) {\n      reviews.push(parsed);\n    }\n\n  } catch (error) {\n    console.log('❌ JSON 파싱 오류:', error.message);\n  }\n}\n\nreturn [{ json: { reviews } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1040,
+        0
+      ],
+      "id": "17f31581-f7b0-47e3-b35b-6032e3ed8fe3",
+      "name": "Refine Results1"
+    },
+    {
+      "parameters": {
+        "name": "calculate_comment_line_number",
+        "description": "Finds the comment line number in the file by scanning patch content for the review target code line.\n",
+        "jsCode": "// query: OpenAI에서 전달됨 (문자열 or undefined)\nif (typeof query === 'undefined' || !query || query.trim() === '{}') {\n  return 'NO_REVIEW';  // 또는 빈 문자열 '' 반환 가능\n}\n\nlet parsed;\ntry {\n  parsed = typeof query === 'string' ? JSON.parse(query) : query;\n} catch (err) {\n  return 'INVALID_QUERY';\n}\n\nif (!parsed.patch || !parsed.commentLine) {\n  return 'NO_REVIEW';\n}\n\nfunction getCommentLineNumber(patch, commentLine) {\n  const lines = patch.split('\\n');\n  let currentLine = 0;\n  let inHunk = false;\n\n  for (let i = 0; i < lines.length; i++) {\n    const line = lines[i];\n\n    if (line.startsWith('@@')) {\n      const match = line.match(/\\+(\\d+)(?:,(\\d+))?/);\n      if (!match) throw new Error(\"Invalid patch header\");\n      currentLine = parseInt(match[1], 10);\n      inHunk = true;\n      continue;\n    }\n\n    if (!inHunk) continue;\n\n    if (line.includes(commentLine)) {\n      return currentLine;\n    }\n\n    if (line.startsWith('+') && !line.startsWith('+++')) {\n      currentLine++;\n    } else if (!line.startsWith('-')) {\n      currentLine++;\n    }\n  }\n\n  throw new Error(\"Could not find comment line in patch\");\n}\n\ntry {\n  const { patch, commentLine } = parsed;\n  const lineNumber = getCommentLineNumber(patch, commentLine);\n  return lineNumber.toString();\n} catch (e) {\n  return 'LINE_NOT_FOUND'; // 혹은 e.message 반환 가능\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [
+        820,
+        200
+      ],
+      "id": "679d4dde-9cc9-42e8-ad5a-6e4612e62808",
+      "name": "Code Tool"
+    }
+  ],
+  "pinData": {
+    "When clicking ‘Test workflow’": [
+      {
+        "json": {
+          "body": {
+            "owner": "jsyang-dev",
+            "repo": "hexagonal-example",
+            "pullNumber": "1"
+          }
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-06-14T01:36:58.976Z",
+  "versionId": "a773b132-7c57-411e-a067-b463f8f7f1ab"
+}
