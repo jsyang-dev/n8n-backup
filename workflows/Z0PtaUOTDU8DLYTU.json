@@ -1,0 +1,321 @@
+{
+  "active": true,
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Vaiables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Vaiables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vaiables": {
+      "main": [
+        [
+          {
+            "node": "Get Pull Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Pull Request": {
+      "main": [
+        [
+          {
+            "node": "Get Changes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Changes": {
+      "main": [
+        [
+          {
+            "node": "Check Package Rules",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check Filename Rules",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Package Rules": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Filename Rules": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Make Comment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Make Comment": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "createdAt": "2025-06-03T06:33:09.742Z",
+  "id": "Z0PtaUOTDU8DLYTU",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "패키지 및 클래스명 룰 체크",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "decedbb5-be71-4d57-a8eb-55fc5d7c8598",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "ec15a92f-2eb4-452f-a969-061e8ccc3cda",
+      "name": "Webhook",
+      "webhookId": "decedbb5-be71-4d57-a8eb-55fc5d7c8598"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -160
+      ],
+      "id": "676e1243-9b81-4cdd-bc4e-53fa4abe674c",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d1d73897-602e-4723-b015-d228ff51e5da",
+              "name": "workflowUrl",
+              "value": "http://localhost:5678/workflow/Z0PtaUOTDU8DLYTU",
+              "type": "string"
+            },
+            {
+              "id": "19806d7c-b6e4-4025-8641-ee5c44f93912",
+              "name": "defaultPackage",
+              "value": "com.example",
+              "type": "string"
+            },
+            {
+              "id": "9491cacd-de1e-4ca2-96bc-52268736ad8b",
+              "name": "allowedPackages",
+              "value": "[\"domain.model\", \"domain.event\", \"domain.exception\", \"application.service\", \"application.port.in\", \"application.port.out\", \"adapter.in.web\", \"adapter.in.event\", \"adapter.out.persistence\", \"adapter.out.event\", \"adapter.out.external\"]",
+              "type": "array"
+            },
+            {
+              "id": "7d9b085a-8884-4719-ad9c-b55d024bdfcc",
+              "name": "allowedSuffixes",
+              "value": "={\n  \"rules\": [\n    { \"package\": \"application.service\", \"suffix\": [\"CommandService\", \"QueryService\"] },\n    { \"package\": \"application.port.in\", \"suffix\": [\"CommandUseCase\", \"QueryUseCase\"] },\n    { \"package\": \"application.port.out\", \"suffix\": [\"Port\"] },\n    { \"package\": \"adapter.in.web\", \"suffix\": [\"Controller\"] },\n    { \"package\": \"adapter.out.persistence\", \"suffix\": [\"MasterMapper\", \"ReadMapper\"] },\n    { \"package\": \"adapter.out.external\", \"suffix\": [\"Adapter\"] }\n  ]\n}",
+              "type": "object"
+            },
+            {
+              "id": "8342b586-4dee-4aa2-9264-09eaa3acf34c",
+              "name": "owner",
+              "value": "={{ $json.body.owner }}",
+              "type": "string"
+            },
+            {
+              "id": "930a425a-b829-4a09-9c6a-d311ae1cca63",
+              "name": "repo",
+              "value": "={{ $json.body.repo }}",
+              "type": "string"
+            },
+            {
+              "id": "277fe591-ca54-4206-a52b-38cf85b441fc",
+              "name": "pullNumber",
+              "value": "={{ $json.body.pullNumber }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        220,
+        0
+      ],
+      "id": "a6654809-25fb-4d83-95d9-fb19f510842a",
+      "name": "Vaiables"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.github.com/repos/{{ $json.owner }}/{{ $json.repo }}/pulls/{{ $json.pullNumber }}/files",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "githubApi",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        0
+      ],
+      "id": "a15ec7e8-2e54-43d4-a253-0fac7b68966d",
+      "name": "Get Pull Request",
+      "credentials": {
+        "githubApi": {
+          "id": "OYItXu3TJaqpVZ8S",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const results = [];\n\nfor (const item of items) {\n  // 각 항목(item)에서 변경된 파일 정보 추출\n  const fileChange = item.json;\n  const patch = fileChange.patch;\n\n  // patch가 없는 경우(예: 삭제된 파일)는 건너뜀\n  if (!patch) continue;\n\n  // 전체 경로에서 파일명만 추출\n  const fullPath = fileChange.filename;\n  const filenameOnly = fullPath.split('/').pop();\n  \n  // 테스트가 아닌 Java 파일만 필터링\n  const javaPrefix = 'src/main/java/';\n  if (fullPath.startsWith(javaPrefix) && !filenameOnly.endsWith('.java')) continue;\n\n  // 패키지 경로 추출\n  let packageName = null;\n  const relativePath = fullPath.slice(javaPrefix.length);\n  const pathParts = relativePath.split('/');\n  pathParts.pop(); // 파일명 제거\n  packageName = pathParts.join('.');\n\n  // patch 내용을 줄 단위로 분리\n  const lines = patch.split('\\n');\n\n  // patch 중 추가된 줄만 필터링\n  const addedLines = lines.filter(line =>\n    line.startsWith('+') && !line.startsWith('+++')\n  );\n\n  results.push({\n    json: {\n      filename: filenameOnly,\n      package: packageName,\n      addedLines: addedLines.map(line => line.slice(1)) // '+' 기호 제거\n    }\n  });\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        0
+      ],
+      "id": "7e574131-71e7-4b16-bf99-b2b0c03a4ad6",
+      "name": "Get Changes"
+    },
+    {
+      "parameters": {
+        "jsCode": "const defaultPackage = $('Vaiables').first().json.defaultPackage;\nconst allowedPackages = $('Vaiables').first().json.allowedPackages;\n\nconst results = [];\n\nfor (const fileData of $input.all()) {\n  const { filename, package: pkg, addedLines } = fileData.json;\n\n  // package 줄만 필터링\n  const packageLines = addedLines.filter(line => line.trim().startsWith('package '));\n\n  // 정규표현식 배열 생성 (allowedPackages마다 하나씩)\n  const allowedRegexes = allowedPackages.map(pkg =>\n    // package {defaultPackage}.{프로젝트}.{컨텍스트}.{도메인}.{allowedPackage}.<하위 패키지>; \n    new RegExp(`^package\\\\s+${defaultPackage}\\\\.\\\\w+\\\\.\\\\w+\\\\.\\\\w+\\\\.${pkg.replace(/\\./g, '\\\\.')}(\\\\..+)*;$`)\n  );\n\n  // 위반 줄 추출: 어느 패턴에도 맞지 않으면 위반\n  const invalidPackages = packageLines.filter(line => {\n    return !allowedRegexes.some(regex => regex.test(line.trim()));\n  });\n\n  if (invalidPackages.length > 0) {\n    results.push({\n      filename,\n      package: pkg\n    });\n  }\n}\n\n// package, filename 순 정렬\nresults.sort((a, b) => {\n  const pkgCompare = a.package.localeCompare(b.package);\n  if (pkgCompare !== 0) return pkgCompare;\n  return a.filename.localeCompare(b.filename);\n});\n\nreturn results.map(v => ({ json: v }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        -100
+      ],
+      "id": "790c2aa4-f0b0-4323-bf40-3cceec429059",
+      "name": "Check Package Rules",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const suffixRules = $('Vaiables').first().json.allowedSuffixes.rules;\n\nconst results = [];\n\nfor (const item of $input.all()) {\n  const { filename, package: pkg } = item.json;\n\n  // 파일명에서 확장자 제거 → 클래스명\n  const className = filename.replace(/\\.java$/, '');\n\n  // package 정보가 없으면 스킵\n  if (!pkg) continue;\n\n  // suffix 룰에서 해당 패키지에 매칭되는 룰 찾기\n  const matchedRule = suffixRules.find(rule => pkg.includes(rule.package));\n\n  // 해당되는 룰이 없다면 검사 대상 아님 → 패스\n  if (!matchedRule) continue;\n\n  const { suffix } = matchedRule;\n\n  // 접미사가 하나라도 일치하는지 확인\n  const isValid = suffix.some(s => className.endsWith(s));\n\n  if (!isValid) {\n    results.push({\n      filename,\n      package: pkg,\n      expectedSuffixes: suffix\n    });\n  }\n}\n\n// package, filename 순 정렬\nresults.sort((a, b) => {\n  const pkgCompare = a.package.localeCompare(b.package);\n  if (pkgCompare !== 0) return pkgCompare;\n  return a.filename.localeCompare(b.filename);\n});\n\nreturn results.map(r => ({ json: r }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        80
+      ],
+      "id": "3798c013-176d-4e25-b801-3c013f562ac6",
+      "name": "Check Filename Rules",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const violations = items.filter(item => Object.keys(item.json).length > 0);\n\nconst packageViolations = [];\nconst suffixViolations = [];\n\nfor (const item of violations) {\n  const { filename, package: pkg, expectedSuffixes } = item.json;\n\n  if (!expectedSuffixes) {\n    // 패키지 룰 위반\n    packageViolations.push({ filename, package: pkg });\n  } else {\n    // 접미사 룰 위반\n    suffixViolations.push({ filename, package: pkg, expectedSuffixes });\n  }\n}\n\nlet comment = '### 🔎 패키지 및 클래스명 룰 체크\\n\\n';\n\nconst passed = packageViolations.length === 0 && suffixViolations.length === 0;\n\nif (passed) {\n  comment += '✅ 모든 룰을 통과했습니다!';\n} else {\n  if (packageViolations.length > 0) {\n    comment += '#### ❌ 패키지 룰 위반\\n';\n    for (const item of packageViolations) {\n      comment += `- \\`${item.package}.${item.filename}\\`\\n`;\n    }\n    comment += '\\n';\n  }\n\n  if (suffixViolations.length > 0) {\n    comment += '#### ❌ 클래스명 룰 위반\\n';\n    for (const item of suffixViolations) {\n      comment += `- \\`${item.package}.${item.filename}\\` - 허용된 접미사 [${item.expectedSuffixes.join(', ')}]\\n`;\n    }\n    comment += '\\n';\n  }\n}\n\ncomment += ` ([n8n](${$('Vaiables').first().json.workflowUrl}/executions/${$execution.id}))`\n\nreturn [{\n  json: {\n    comment,\n    passed\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        0
+      ],
+      "id": "6fca0e06-588a-495b-9d40-80ed64f31f85",
+      "name": "Make Comment"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        1100,
+        0
+      ],
+      "id": "00065f52-c73f-48d8-ac9a-95fec35dedd8",
+      "name": "Merge"
+    }
+  ],
+  "pinData": {
+    "When clicking ‘Test workflow’": [
+      {
+        "json": {
+          "headers": {
+            "host": "a1a9-116-33-11-45.ngrok-free.app",
+            "user-agent": "curl/8.7.1",
+            "content-length": "95",
+            "accept": "*/*",
+            "content-type": "application/json",
+            "x-forwarded-for": "116.33.11.45",
+            "x-forwarded-host": "a1a9-116-33-11-45.ngrok-free.app",
+            "x-forwarded-proto": "https",
+            "accept-encoding": "gzip"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "owner": "jsyang-dev",
+            "repo": "hexagonal-example",
+            "pullNumber": "1"
+          },
+          "webhookUrl": "http://localhost:5678/webhook/decedbb5-be71-4d57-a8eb-55fc5d7c8598",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-06-03T17:02:00.542Z",
+  "versionId": "57bc9af0-b99c-422e-8030-2f16de740c14"
+}
