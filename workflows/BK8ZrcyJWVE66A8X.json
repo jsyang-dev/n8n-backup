@@ -1,0 +1,357 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Set Parameters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Table Hashs": {
+      "main": [
+        [
+          {
+            "node": "Get Table Enum",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Table Enum": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Set Parameters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Call API",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Find Table Name",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Parameters": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Set Table Hashs",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-05-12T05:25:02.065Z",
+  "id": "BK8ZrcyJWVE66A8X",
+  "meta": null,
+  "name": "테이블명 찾기",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -680,
+        -160
+      ],
+      "id": "6e1428ac-3a51-4a45-ab16-6f2fdc4ca686",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "jsCode": "return {\n  tableHashs: [\n    {\n      tableEnum: 'QUESTION',\n      hash: 20\n    },\n    {\n      tableEnum: 'ANSWER',\n      hash: 100\n    }\n  ]\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        200,
+        -80
+      ],
+      "id": "78619acb-5545-48d6-b0c8-390ece05b3f2",
+      "name": "Set Table Hashs"
+    },
+    {
+      "parameters": {
+        "jsCode": "const tempTableName = $('Set Parameters').first().json.tempTableName;\nconst tablePrefix = tempTableName.replace(/_(\\d+)$/, '');\nconst tableEnum = tablePrefix.toUpperCase().replace('TB_', '');\n\nconst tableHash = $input.first().json.tableHashs.find(tableHash => tableHash.tableEnum === tableEnum);\n\nlet hash = 0\nif (tableHash) {\n  hash = tableHash.hash;\n}\n\n\nreturn {\n  tableEnum: tableEnum,\n  hash: hash,\n  key: $('Set Parameters').first().json.key\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        420,
+        -80
+      ],
+      "id": "5da3ee2e-f383-41dd-b3c4-ad7bc4df981e",
+      "name": "Get Table Enum"
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "tempTableName"
+            },
+            {
+              "name": "key"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -680,
+        0
+      ],
+      "id": "930fb420-f148-4d73-92cc-4e2c31393f06",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "598f2932-db7b-4008-aebb-e2d2921e552f",
+              "leftValue": "={{ $json.hash }}",
+              "rightValue": "=0",
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        640,
+        -80
+      ],
+      "id": "ca8ba756-84c5-4dc8-9a3c-4c9f8bfa0b3d",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "64e8e7ff-0d7d-4bc5-bcb3-70787ac34c0a",
+              "name": "tempTableName",
+              "value": "={{ $json.tempTableName }}",
+              "type": "string"
+            },
+            {
+              "id": "d19e931b-d851-424c-9031-18f904d10902",
+              "name": "key",
+              "value": "={{ $json.key }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -460,
+        0
+      ],
+      "id": "c2d511d0-b626-4555-b370-124b87372d58",
+      "name": "Set Parameters"
+    },
+    {
+      "parameters": {
+        "url": "=http://10.96.147.143:8081/info/table-names/{{ $json.tableEnum }}/values/{{ $json.key }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text",
+              "outputPropertyName": "tableName"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        860,
+        -160
+      ],
+      "id": "a91533a3-e259-4c0a-a29b-a06fa224f392",
+      "name": "Call API"
+    },
+    {
+      "parameters": {
+        "jsCode": "const tablePrefix = $('Set Parameters').first().json.tempTableName.replace(/_(\\d+)$/, '');\nconst tableNum = $input.first().json.key % $input.first().json.hash;\n\nreturn {\n  tableName: tablePrefix + '_' + tableNum\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        860,
+        0
+      ],
+      "id": "faf64123-5e63-4b9b-8bde-7f9bed6a7373",
+      "name": "Find Table Name"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d1b9a91d-100b-4acf-b22f-02460d7944f3",
+              "leftValue": "={{ $json.isSharded }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -20,
+        0
+      ],
+      "id": "cd0af570-1320-4df4-9784-2d410b470be5",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const pattern = /_(\\d+)$/;\n\nreturn {\n  tempTableName: $input.first().json.tempTableName,\n  key: $input.first().json.key,\n  isSharded: pattern.test($input.first().json.tempTableName)\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -240,
+        0
+      ],
+      "id": "6cb8cea2-622e-4e81-b659-0124763eb0cc",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9d94048c-060d-46c5-969a-2453164e3dbb",
+              "name": "tableName",
+              "value": "={{ $json.tempTableName }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        200,
+        80
+      ],
+      "id": "b434d024-79b7-4e5e-aecd-d1e2ed6392a4",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {
+    "When clicking ‘Test workflow’": [
+      {
+        "json": {
+          "tempTableName": "tb_my_answer_0",
+          "key": "nvqa_kin73"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-05-13T10:17:23.042Z",
+  "versionId": "e8074f08-32af-45aa-81c3-691e40981655"
+}
