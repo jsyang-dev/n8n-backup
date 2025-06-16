@@ -1,5 +1,5 @@
 {
-  "active": false,
+  "active": true,
   "connections": {
     "On clicking 'execute'": {
       "main": [
@@ -680,9 +680,13 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "staticData": null,
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    }
+  },
   "tags": [],
-  "triggerCount": 0,
-  "updatedAt": "2025-06-16T14:57:58.019Z",
+  "triggerCount": 1,
+  "updatedAt": "2025-06-16T14:58:38.476Z",
   "versionId": "2157907b-65ad-40a0-8864-daab4ee4c245"
 }
