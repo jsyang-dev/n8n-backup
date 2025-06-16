@@ -1,0 +1,1119 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Target Tables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chat trigger": {
+      "main": [
+        [
+          {
+            "node": "Load Schema  File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Query Exists?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL": {
+      "main": [
+        [
+          {
+            "node": "Convert to Result File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        []
+      ]
+    },
+    "Table Name Finder": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ask Execution": {
+      "main": [
+        [
+          {
+            "node": "Approved?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Query Exists?": {
+      "main": [
+        [
+          {
+            "node": "Ask Execution",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Query Not Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Approved?": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Failed Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Target Tables": {
+      "main": [
+        [
+          {
+            "node": "Target Databases",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Target Databases": {
+      "main": [
+        [
+          {
+            "node": "Loop over Tables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop over Tables": {
+      "main": [
+        [
+          {
+            "node": "Filter Tables",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "List All Tables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Tables": {
+      "main": [
+        [
+          {
+            "node": "List All Columns",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "List All Tables": {
+      "main": [
+        [
+          {
+            "node": "Loop over Tables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "List All Columns": {
+      "main": [
+        [
+          {
+            "node": "Combine Data1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to Schema File": {
+      "main": [
+        [
+          {
+            "node": "Save Schema File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to Result File": {
+      "main": [
+        [
+          {
+            "node": "Save Result File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Result File": {
+      "main": [
+        [
+          {
+            "node": "Nubes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload to Nubes": {
+      "main": [
+        []
+      ]
+    },
+    "Combine Data": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load Schema  File": {
+      "main": [
+        [
+          {
+            "node": "Extract from Schema File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from Schema File": {
+      "main": [
+        [
+          {
+            "node": "Combine Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine Data1": {
+      "main": [
+        [
+          {
+            "node": "Convert to Schema File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Failed Message": {
+      "main": [
+        [
+          {
+            "node": "Not Approved",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nubes": {
+      "main": [
+        [
+          {
+            "node": "Success Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-04-21T04:42:17.375Z",
+  "id": "PuZj8RRNJjD8P139",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "데이터 추출 자동화(QA)",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        -520
+      ],
+      "id": "823ba321-e327-442d-b63c-734d36dac3a3",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -200,
+        400
+      ],
+      "id": "cb9437a4-f3f9-4a89-8e56-1efa2095b102",
+      "name": "Chat trigger",
+      "webhookId": "fc02e45b-c6c1-4b71-8e46-55d197f90657"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Here is the database schema:  {{ $json.schema }}\nHere is the user request: {{ $('Chat trigger').item.json.chatInput }}",
+        "options": {
+          "systemMessage": "You are a professional SQL developer.\n\nDo not hallucinate. Only use the data provided by user.  \nYou MUST write queries using only the provided schema, and the queries must execute without errors in MySQL.\n\n## Rules\n- Always prefix the table name with the schema name.\n  - Example: db_computer.tb_answer_0\n- You MUST call \"Table Name Finder\" tool for each table you need to query to get the final table name.\n- You MUST return only the generated query without code block.\n- If you need to find a question or answer based on a user ID, look at the \"tb_my_question\" and \"tb_my_answer\" tables first."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        680,
+        400
+      ],
+      "id": "1377188b-3d8e-4cc3-a883-8d742139c963",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1"
+        },
+        "options": {
+          "temperature": 0.2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        680,
+        620
+      ],
+      "id": "17ee71be-84a5-4de6-8036-37c0564e94bb",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "mNBU5lSqo1M9WYgW",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "{{ $('AI Agent').item.json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        1740,
+        240
+      ],
+      "id": "be85cc76-2683-457f-a1b4-9f1f8ecc6cf2",
+      "name": "MySQL",
+      "alwaysOutputData": false,
+      "credentials": {
+        "mySql": {
+          "id": "57wu2rxxsd1QLeHF",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -200,
+        -360
+      ],
+      "id": "07980c29-daee-4c47-a971-6dd6dac90d6f",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "name": "table_name_finder",
+        "description": "Get the table name using the temporary table name and value.\n",
+        "workflowId": {
+          "__rl": true,
+          "value": "BK8ZrcyJWVE66A8X",
+          "mode": "list",
+          "cachedResultName": "테이블명 찾기"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "tempTableName": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('tempTableName', `This is a temporary table name before obtaining the table name.\nTemporary table names have the prefix \"tb_\".`, 'string') }}",
+            "key": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('key', `A key to find the table name.`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "tempTableName",
+              "displayName": "tempTableName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "key",
+              "displayName": "key",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        840,
+        620
+      ],
+      "id": "3953ce7e-7003-43a6-bec7-53154dfd4b76",
+      "name": "Table Name Finder"
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "CV8E8N6RF",
+          "mode": "list",
+          "cachedResultName": "kin-bot-test"
+        },
+        "message": "=✅ 쿼리를 실행할까요?\n```\n{{ $json.output }}\n```",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        1280,
+        320
+      ],
+      "id": "7c3222be-d6d7-4ab8-bc91-e15adbd8545b",
+      "name": "Ask Execution",
+      "webhookId": "6654d3d3-852b-42be-a089-acf4f2b41607",
+      "credentials": {
+        "slackApi": {
+          "id": "s1qaP8N3VDY2Qb2P",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "860d9bd9-233b-4de6-96ea-88d4c04cf923",
+              "leftValue": "={{ $json.output }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1060,
+        400
+      ],
+      "id": "f8dcbf54-ea1b-468c-a724-c2900144aed1",
+      "name": "Query Exists?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "99452c57-305f-469f-9496-8813e699add2",
+              "leftValue": "={{ $json.data.approved }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1500,
+        320
+      ],
+      "id": "58ac360c-33b8-424c-9692-cc43441499ae",
+      "name": "Approved?"
+    },
+    {
+      "parameters": {
+        "content": "# 스키마 파일 생성 (스케줄)",
+        "height": 600,
+        "width": 2060,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -280,
+        -640
+      ],
+      "id": "8b2ba816-be81-4ea8-be4c-915d340d2d3d",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "jsCode": "return {\n  targetTables: [\n    'tb_answer_0',\n    'tb_bump_question',\n    'tb_choice_question',\n    'tb_counselor',\n    'tb_directory',\n    'tb_my_add_qna',\n    'tb_my_answer_0',\n    'tb_my_question_0',\n    'tb_namecard_0',\n    'tb_namecard_birth_date',\n    'tb_namecard_career',\n    'tb_namecard_job_group',\n    'tb_namecard_license',\n    'tb_namecard_profile_keyword',\n    'tb_namecard_school',\n    'tb_namecard_sex',\n    'tb_namecard_summary_intro',\n    'tb_namecard_url_0',\n    'tb_naver_topic_mapping',\n    'tb_partner',\n    'tb_question_0',\n    'tb_roulette_ticket',\n    'tb_user_activity_0',\n    'tb_user_answer_vote_result',\n    'tb_user_info_0'\n  ]\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        20,
+        -360
+      ],
+      "id": "8193dde2-ef79-4200-99da-99a46df2af7f",
+      "name": "Target Tables"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    \"database\": \"db_computer\"\n  },\n  {\n    \"database\": \"db_like\"\n  },\n  {\n    \"database\": \"db_main\"\n  },\n  {\n    \"database\": \"db_mykin\"\n  },\n  {\n    \"database\": \"db_partnership\"\n  },\n  {\n    \"database\": \"db_record\"\n  },\n  {\n    \"database\": \"db_user\"\n  }\n]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        -360
+      ],
+      "id": "d391620e-a8d9-4cae-9e21-b342133950d3",
+      "name": "Target Databases"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        480,
+        -360
+      ],
+      "id": "f155320f-92dc-42fb-a6ef-d98ba1311530",
+      "name": "Loop over Tables"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 가져올 테이블\nconst targetTables = $('Target Tables').first().json.targetTables\n\nconst filteredItems = $input.all().filter(item => \n  targetTables.includes(item.json.table)\n);\n\nreturn filteredItems;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        700,
+        -440
+      ],
+      "id": "c8b9ad7e-221e-44ae-8991-d3a92d3c4d1a",
+      "name": "Filter Tables"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT TABLE_SCHEMA  AS `database`,\n       TABLE_NAME    AS `table`,\n       TABLE_COMMENT AS `comment`\nFROM INFORMATION_SCHEMA.TABLES\nWHERE table_schema = '{{ $json.database }}';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        700,
+        -280
+      ],
+      "id": "4fab6c82-4e6a-4504-ad96-a8afbe46337c",
+      "name": "List All Tables",
+      "alwaysOutputData": false,
+      "notesInFlow": false,
+      "credentials": {
+        "mySql": {
+          "id": "57wu2rxxsd1QLeHF",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT COLUMN_NAME AS `field`,\n       COLUMN_TYPE AS `type`,\n       IS_NULLABLE AS `null`,\n       COLUMN_KEY AS `key`,\n       COLUMN_DEFAULT AS `default`,\n       COLUMN_COMMENT AS `comment`\nFROM INFORMATION_SCHEMA.COLUMNS\nWHERE TABLE_SCHEMA = '{{ $json.database }}'\n  AND TABLE_NAME = '{{ $json.table }}';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        920,
+        -440
+      ],
+      "id": "d996f352-00f9-4b8d-8a09-6394d634724a",
+      "name": "List All Columns",
+      "credentials": {
+        "mySql": {
+          "id": "57wu2rxxsd1QLeHF",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1360,
+        -440
+      ],
+      "id": "bf051ece-e475-48d2-99e0-2c59fb5ca229",
+      "name": "Convert to Schema File"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "./mysql.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        1580,
+        -440
+      ],
+      "id": "d7ec0cb9-7e38-4f73-8217-e2edc9cb412d",
+      "name": "Save Schema File"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        2180,
+        240
+      ],
+      "id": "33cee6a7-b3bd-47cd-aca8-ae0db14e10a5",
+      "name": "Convert to Result File"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "={{ $('Combine Data').item.json.sessionId }}.csv",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        2400,
+        240
+      ],
+      "id": "e4988d47-ede9-4cf6-b2b4-e89ca0335f1c",
+      "name": "Save Result File"
+    },
+    {
+      "parameters": {
+        "command": "=curl -v -X POST http://10.105.64.25:8000/v1/kin-monitoring/n8n/{{ $json.fileName }} -T ./{{ $json.fileName }}"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        2620,
+        400
+      ],
+      "id": "8d977ad4-7647-4672-a4fb-67650aae80a3",
+      "name": "Upload to Nubes"
+    },
+    {
+      "parameters": {
+        "errorMessage": "실행할 쿼리가 없습니다."
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        1280,
+        480
+      ],
+      "id": "4ce5745c-b7e0-47f2-88ac-b97df30970af",
+      "name": "Query Not Exists"
+    },
+    {
+      "parameters": {
+        "errorMessage": "쿼리 실행이 승이 거부되었습니다."
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        1960,
+        400
+      ],
+      "id": "38fe84dd-002a-4213-bb24-ed4d72caeac7",
+      "name": "Not Approved"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f04bfef1-f311-41a0-977c-2fc90649a703",
+              "name": "sessionId",
+              "value": "={{ $('Chat trigger').item.json.sessionId }}",
+              "type": "string"
+            },
+            {
+              "id": "12fdf87d-c5f7-4e70-8600-847ab34abf20",
+              "name": "action",
+              "value": "={{ $('Chat trigger').item.json.action }}",
+              "type": "string"
+            },
+            {
+              "id": "61becf70-f0fb-4386-a519-0b701356b7f2",
+              "name": "chatInput",
+              "value": "={{ $('Chat trigger').item.json.chatInput }}",
+              "type": "string"
+            },
+            {
+              "id": "0095c013-06a9-4070-bff5-42eec497b6d1",
+              "name": "schema",
+              "value": "={{ $json.data }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        460,
+        400
+      ],
+      "id": "f43d6a9e-27e5-4d30-8d63-bf92b26cfb75",
+      "name": "Combine Data"
+    },
+    {
+      "parameters": {
+        "fileSelector": "./mysql.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        20,
+        400
+      ],
+      "id": "c9222cb7-7580-4555-aa5b-b1d29ee909a9",
+      "name": "Load Schema  File"
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        240,
+        400
+      ],
+      "id": "b0f01ed6-97d9-447a-8ec3-d23740cbf319",
+      "name": "Extract from Schema File"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "16c665f2-fdad-44ba-b3a0-cea7d00a240a",
+              "name": "database",
+              "value": "={{ $('Filter Tables').item.json.database }}",
+              "type": "string"
+            },
+            {
+              "id": "2ddad963-3237-406b-81e8-df1bb706dc2d",
+              "name": "table",
+              "value": "={{ $('Filter Tables').item.json.table }}",
+              "type": "string"
+            },
+            {
+              "id": "29d5adbd-5c13-4826-ac4f-93d58c5b8016",
+              "name": "tableComment",
+              "value": "={{ $('Filter Tables').item.json.comment }}",
+              "type": "string"
+            },
+            {
+              "id": "9b9c80c9-12c5-42de-8023-3f8f2579db21",
+              "name": "field",
+              "value": "={{ $json.field }}",
+              "type": "string"
+            },
+            {
+              "id": "e227e3c7-26dd-4387-aa7e-426c0aa1de3d",
+              "name": "type",
+              "value": "={{ $json.type }}",
+              "type": "string"
+            },
+            {
+              "id": "a88ab479-ee08-43df-9ac2-5b85a6398dbb",
+              "name": "null",
+              "value": "={{ $json.null }}",
+              "type": "string"
+            },
+            {
+              "id": "e6c5108b-7a8c-4e70-9729-543730268652",
+              "name": "key",
+              "value": "={{ $json.key }}",
+              "type": "string"
+            },
+            {
+              "id": "907a61dd-9294-49bb-b3e1-2ed3f7e8c1c7",
+              "name": "default",
+              "value": "={{ $json.default }}",
+              "type": "string"
+            },
+            {
+              "id": "912980c1-b7e8-4815-be15-86906b72796b",
+              "name": "columnComment",
+              "value": "={{ $json.comment }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1140,
+        -440
+      ],
+      "id": "0edd914d-bfef-4a86-a24c-e62b135a921b",
+      "name": "Combine Data1"
+    },
+    {
+      "parameters": {
+        "content": "# 데이터 추출",
+        "height": 740,
+        "width": 3320,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -280,
+        40
+      ],
+      "id": "34f9ad3f-9fbf-4f8a-8bc1-6e92defb75bc",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## 1. 메타 정보 설정",
+        "height": 440,
+        "width": 400
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -20,
+        -520
+      ],
+      "id": "3888ea68-842f-49fe-8fa6-232253f4b648",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## 2. 스키마 정보 추출",
+        "height": 440,
+        "width": 640
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        420,
+        -520
+      ],
+      "id": "26b760a1-232d-41d5-83b9-7712e846da56",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## 1. 스키마 파일 로드",
+        "height": 580,
+        "width": 400
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -20,
+        160
+      ],
+      "id": "6724a777-9585-41d5-9d22-963384702a2a",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## 3. 쿼리 실행\n- 쿼리 실행 여부 슬랙에서 확인 후 실행",
+        "height": 580,
+        "width": 1080
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1020,
+        160
+      ],
+      "id": "3769452f-1b49-4386-bb8b-864501145408",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "## 4. 파일 생성 및 저장",
+        "height": 580,
+        "width": 840
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2140,
+        160
+      ],
+      "id": "8e6dcdd2-6173-4dd4-8600-e30a904baf23",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "CV8E8N6RF",
+          "mode": "list",
+          "cachedResultName": "kin-bot-test"
+        },
+        "text": "=🚀 쿼리 실행이 완료되었습니다.\n> 결과 확인: http://10.105.64.25:8000/v1/kin-monitoring/n8n/{{ $('Save Result File').item.json.fileName }}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        2840,
+        240
+      ],
+      "id": "e1368862-d1be-4caa-b823-34e3fc0a893c",
+      "name": "Success Message",
+      "webhookId": "a22761aa-b2ea-4332-bfeb-8543de9dbf34",
+      "credentials": {
+        "slackApi": {
+          "id": "s1qaP8N3VDY2Qb2P",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "CV8E8N6RF",
+          "mode": "list",
+          "cachedResultName": "kin-bot-test"
+        },
+        "text": "=❌ 쿼리 실행이 실패하였습니다.",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        1740,
+        400
+      ],
+      "id": "777b04f2-e38c-4d8e-bf04-b924f82d2c94",
+      "name": "Failed Message",
+      "webhookId": "a22761aa-b2ea-4332-bfeb-8543de9dbf34",
+      "credentials": {
+        "slackApi": {
+          "id": "s1qaP8N3VDY2Qb2P",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "ip": "10.105.64.25",
+        "port": "8000",
+        "bucketName": "kin-monitoring",
+        "path": "n8n",
+        "fileName": "={{ $json.fileName }}"
+      },
+      "type": "CUSTOM.Nubes",
+      "typeVersion": 1,
+      "position": [
+        2620,
+        240
+      ],
+      "id": "930a3ba5-3389-4010-8417-90497c034a6a",
+      "name": "Nubes"
+    },
+    {
+      "parameters": {
+        "content": "## 3. 파일 생성 및 저장",
+        "height": 440,
+        "width": 620
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        -520
+      ],
+      "id": "2f29b2b5-bc5d-4c39-be54-6df906bf4429",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## 2. 쿼리 생성",
+        "height": 580,
+        "width": 560
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        420,
+        160
+      ],
+      "id": "02f07225-50e8-4a1f-8b70-3bfd82f80bd6",
+      "name": "Sticky Note6"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-05-14T05:36:02.897Z",
+  "versionId": "d8d09f6b-9547-4ad2-bed1-5d0233718075"
+}
