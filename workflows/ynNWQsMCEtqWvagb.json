@@ -1,0 +1,206 @@
+{
+  "active": true,
+  "connections": {
+    "Web Clipper": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Youtube Clipper": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Table Name Finder": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-05-04T08:47:53.762Z",
+  "id": "ynNWQsMCEtqWvagb",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "MCP 서버",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "eb87b68b-051a-40ac-a97a-325a37164415"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "84b84ec9-1f22-4f66-9112-dda983387abe",
+      "name": "MCP Server Trigger",
+      "webhookId": "eb87b68b-051a-40ac-a97a-325a37164415"
+    },
+    {
+      "parameters": {
+        "name": "web_clipper",
+        "description": "Summarizes a web site of url, generates a markdown file, and upload the markdown file.",
+        "workflowId": {
+          "__rl": true,
+          "value": "qVoJFwPwOc3VBRs8",
+          "mode": "list",
+          "cachedResultName": "웹 클리퍼"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "webUrl": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('webUrl', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "url"
+          ],
+          "schema": [
+            {
+              "id": "webUrl",
+              "displayName": "webUrl",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        20,
+        220
+      ],
+      "id": "58b0d395-db27-4d3e-918f-7775347fb7a9",
+      "name": "Web Clipper"
+    },
+    {
+      "parameters": {
+        "name": "youtube_clipper",
+        "description": "Summarizes a YouTube video, generates a markdown file, and upload the markdown file.",
+        "workflowId": {
+          "__rl": true,
+          "value": "76RHr4xb6IpSkJGc",
+          "mode": "list",
+          "cachedResultName": "유튜브 클리퍼"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "youtubeUrl": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('youtubeUrl', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "youtubeUrl"
+          ],
+          "schema": [
+            {
+              "id": "youtubeUrl",
+              "displayName": "youtubeUrl",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        160,
+        220
+      ],
+      "id": "207abbe1-7590-46f8-a0f8-fbd3d2ad0bf2",
+      "name": "Youtube Clipper"
+    },
+    {
+      "parameters": {
+        "name": "table_name_finder",
+        "description": "Get the table name using the temporary table name and value.\n",
+        "workflowId": {
+          "__rl": true,
+          "value": "BK8ZrcyJWVE66A8X",
+          "mode": "list",
+          "cachedResultName": "테이블명 찾기"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "tempTableName": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('tempTableName', `This is a temporary table name before obtaining the table name.\nTemporary table names have the prefix \"tb_\".`, 'string') }}",
+            "key": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('key', `A key to find the table name.`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "tempTableName",
+              "displayName": "tempTableName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "key",
+              "displayName": "key",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        300,
+        220
+      ],
+      "id": "a410fffa-f795-4080-a4d7-448fd4505e69",
+      "name": "Table Name Finder"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2025-05-22T12:44:19.207Z",
+  "versionId": "6523f9ae-a03c-4bbf-94f4-0fa61f26f594"
+}
