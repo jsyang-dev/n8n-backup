@@ -1,0 +1,602 @@
+{
+  "active": false,
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Bypass",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bypass": {
+      "main": [
+        [
+          {
+            "node": "Extract Video ID",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get YouTube Transcript",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Bypass",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Video ID": {
+      "main": [
+        [
+          {
+            "node": "Get YouTube",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine Transcript": {
+      "main": [
+        [
+          {
+            "node": "Summerization",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summerization": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          },
+          {
+            "node": "Tag Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload to OneDrive": {
+      "main": [
+        [
+          {
+            "node": "Return Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get YouTube": {
+      "main": [
+        [
+          {
+            "node": "Sanitize Title",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get YouTube Transcript": {
+      "main": [
+        [
+          {
+            "node": "Combine Transcript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Tag Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Upload to OneDrive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tag Extractor": {
+      "main": [
+        [
+          {
+            "node": "Reformat Tags",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reformat Tags": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Sanitize Title": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-05-01T15:17:39.936Z",
+  "id": "76RHr4xb6IpSkJGc",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "유튜브 클리퍼",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "youtubeUrl"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -500,
+        0
+      ],
+      "id": "ffa64c67-ae1a-4510-809c-606c7160fb99",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "40d11148-e43b-4c76-8850-a71aafe6c233",
+              "name": "youtubeUrl",
+              "value": "={{ $json.youtubeUrl }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -280,
+        0
+      ],
+      "id": "e53f721d-21ba-4f98-ae9a-3dcf9f88cdd1",
+      "name": "Bypass"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -500,
+        -160
+      ],
+      "id": "8d24f0c1-98a1-420f-9965-cf662f421acc",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "jsCode": "const url = $input.first().json.youtubeUrl;\nlet videoId;\n\nif (url.includes('youtu.be')) {\n  videoId = url.split('/').pop().split('?')[0];\n} else if (url.includes('youtube.com/watch')) {\n  videoId = url.split('v=')[1].split('&')[0];\n}\n\nreturn [{\n  json: {\n    videoId: videoId\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -20,
+        -140
+      ],
+      "id": "44fd8ca1-1a38-4865-aace-dbb0b73e1538",
+      "name": "Extract Video ID"
+    },
+    {
+      "parameters": {
+        "jsCode": "const combinedText = $input.first().json.transcript\n  .map(entry => entry.text)\n  .join(' ');\n\nreturn [{\n  json: {\n    combinedTranscript: combinedText\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        200,
+        140
+      ],
+      "id": "54e27e9a-08c8-45de-91af-0f5bd0aff18b",
+      "name": "Combine Transcript"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=1. **목표**\n  - 입력 텍스트(어떤 언어든)를 한국어로 요약해 주세요.\n  - 요약은 간략하게 작성해주세요.\n  - 전문적인 용어(예: “mixture of experts”, “EUV 리소그래피” 등)는 그대로 사용하되, 간단한 해설을 덧붙여 주세요.\n  - 중요한 정보를 빠르게 파악할 수 있도록 불릿 포인트로 구성해 주세요.\n\n2. **구체적 작성 지침**\n  - 원문의 언어든 다른 언어이든, 결과물은 반드시 한국어로 작성해 주세요.\n  - 각 불릿 포인트 아래에서 필요하다면 짤막하게 설명(예: “MoE(Mixture of Experts): 서로 다른 전문가 모듈을 필요한 시점에만 활성화하는 기법”)을 추가해 주세요.\n  - 문단 구조는 마크다운 형식을 활용하여 체계적인 구조로 정리해주세요.\n  - 마크다운의 헤딩을 적극적으로 사용하되, \"##\"부터 사용해주세요.\n  - \"---\"으로 문단을 구분하는 방법은 절대로 사용하지 말아주세요.\n\n---\n\ncontent: {{ $json.combinedTranscript }}"
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0.1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        420,
+        140
+      ],
+      "id": "f330b15b-6bd0-4044-aec2-882270884885",
+      "name": "Summerization",
+      "credentials": {
+        "openAiApi": {
+          "id": "mNBU5lSqo1M9WYgW",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fileName": "={{ $json.title[0] }}.md",
+        "parentId": "22EFFF58BAED9055%21sc5dec13e3fd44c6eb4402460c2abd157",
+        "fileContent": "=---\ntype:\n  - Video\nauthor:\n  - \"[[양정수]]\"\naliases: \nCMDS: \ntags: \n  - Youtube\n{{ $json.tags[0] }}\nlink: {{ $json.url[0] }}\nviewed: false\ncreated: {{ $json.now[0] }}\nupdated: {{ $json.now[0] }}\n---\n# 영상\n\n![{{ $json.title[0] }}]({{ $json.url[0] }})\n\n# 요약\n{{ $json.summary[0] }}"
+      },
+      "type": "n8n-nodes-base.microsoftOneDrive",
+      "typeVersion": 1,
+      "position": [
+        1300,
+        20
+      ],
+      "id": "53d081fc-9565-4c2b-a537-3da811699a57",
+      "name": "Upload to OneDrive",
+      "credentials": {
+        "microsoftOneDriveOAuth2Api": {
+          "id": "0vO5M9iA70ggMAdX",
+          "name": "Microsoft Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d60417ca-28e7-437a-a546-923ee9710068",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "d58b67bd-efa6-4460-b94e-d11ada192dfb",
+              "name": "parentReference.path",
+              "value": "={{ $json.parentReference.path }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1520,
+        20
+      ],
+      "id": "b18ed32d-5b9b-43a5-b6a7-a19d1a7378af",
+      "name": "Return Fields"
+    },
+    {
+      "parameters": {
+        "resource": "video",
+        "operation": "get",
+        "videoId": "={{ $json.videoId }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.youTube",
+      "typeVersion": 1,
+      "position": [
+        200,
+        -140
+      ],
+      "id": "75734852-5c9f-4020-91fe-a55759891fa6",
+      "name": "Get YouTube",
+      "credentials": {
+        "youTubeOAuth2Api": {
+          "id": "kWGv0wrkSioNs41i",
+          "name": "YouTube account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "videoId": "={{ $json.youtubeUrl }}"
+      },
+      "type": "n8n-nodes-youtube-transcription-kasha.youtubeTranscripter",
+      "typeVersion": 1,
+      "position": [
+        -20,
+        140
+      ],
+      "id": "4415e760-029a-4beb-9111-34eefdb277c0",
+      "name": "Get YouTube Transcript"
+    },
+    {
+      "parameters": {
+        "content": "## 1. 유튜브 영상 정보 가져오기",
+        "height": 220,
+        "width": 820
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        -200
+      ],
+      "id": "a8f28aeb-39d1-47d7-956d-e234d6d61598",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## 2. 유튜브 자막 요약하기",
+        "height": 220,
+        "width": 820
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        80
+      ],
+      "id": "582b4ff2-b02a-4259-afac-1972dee7781b",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## 4. 파일 생성 및 업로드",
+        "height": 260,
+        "width": 880,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        800,
+        -60
+      ],
+      "id": "a3b717d6-1ebd-44a1-91f6-f41752569106",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1"
+        },
+        "options": {
+          "temperature": 0.1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        560
+      ],
+      "id": "a1d2fa60-e483-4c26-80e4-b26ff55031d0",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "mNBU5lSqo1M9WYgW",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "numberInputs": 4
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        860,
+        0
+      ],
+      "id": "94b1355a-f71d-4b1f-9a56-149b65183ff6",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "youtubeUrl",
+              "renameField": true,
+              "outputFieldName": "url"
+            },
+            {
+              "fieldToAggregate": "sanitizedTitle",
+              "renameField": true,
+              "outputFieldName": "title"
+            },
+            {
+              "fieldToAggregate": "message.content",
+              "renameField": true,
+              "outputFieldName": "summary"
+            },
+            {
+              "fieldToAggregate": "tags",
+              "renameField": true,
+              "outputFieldName": "tags"
+            },
+            {
+              "fieldToAggregate": "now",
+              "renameField": true,
+              "outputFieldName": "now"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1080,
+        20
+      ],
+      "id": "6326e0bc-d4e2-418f-99a0-c61d663d7bdf",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.message.content }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "tags",
+              "description": "Tags that can be fetched from the transcript. \nExtract 1 to 5 most relevant tags. It is not necessary to extract exactly 5.\nTags must be words without spaces.",
+              "required": true
+            }
+          ]
+        },
+        "options": {
+          "systemPromptTemplate": "You are an expert extraction algorithm.\nOnly extract relevant information from the text.\nIf you do not know the value of an attribute asked to extract, you may omit the attribute's value."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1,
+      "position": [
+        -20,
+        400
+      ],
+      "id": "3f2cd54c-e7ba-474c-a261-950311237f3f",
+      "name": "Tag Extractor"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 입력을 쉼표로 분할\nconst tags = $input.first().json.output.tags.split(',').map(item => item.trim());\n  \n// 각 키워드에 대해 \"- \" 접두사 추가\nconst formattedTags = tags.map(keyword => `  - ${keyword}`).join('\\n');\n  \n// 결과 반환\nreturn [{\n  json: {\n    tags: formattedTags\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        580,
+        400
+      ],
+      "id": "6fe42310-af68-41bd-a025-29d2a808f458",
+      "name": "Reformat Tags"
+    },
+    {
+      "parameters": {
+        "content": "## 3. 태그 추출하기",
+        "height": 340,
+        "width": 820
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        340
+      ],
+      "id": "c0cbe6be-5220-49ab-8cdf-c06e8f7bcd68",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. 제목의 특수문자 제거\nlet title = $input.first().json.snippet.title;\nconst protocols = /https?:\\/\\//g;\nconst invalidChars = /[\\\\\\/:*?\"<>|`]/g;\nlet sanitizedTitle;\n\nif (title === \"\") {\n  title = $('Bypass').first().json.url\n  sanitizedTitle = title.replace(protocols, \"\").replace(invalidChars, \"_\");\n} else {\n  sanitizedTitle = title.replace(invalidChars, \"_\");\n}\n\n// 2. 현재 날짜 구하기\nconst now = new Date();\n\n// 날짜 구성 요소 추출\nconst year = now.getFullYear();\nconst month = String(now.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1\nconst date = String(now.getDate()).padStart(2, '0');\n\n// 요일 추출 및 변환\nconst days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];\nconst day = days[now.getDay()];\n\n// 시간 구성 요소 추출\nconst hours = String(now.getHours()).padStart(2, '0');\nconst minutes = String(now.getMinutes()).padStart(2, '0');\nconst seconds = String(now.getSeconds()).padStart(2, '0');\n\nreturn [{\n  json: {\n    title: title,\n    sanitizedTitle: sanitizedTitle,\n    now: `${year}-${month}-${date} ${day}, ${hours}:${minutes}:${seconds}`\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        560,
+        -140
+      ],
+      "id": "4d8ac3c9-cda9-4057-b9c7-86c90cc4c238",
+      "name": "Sanitize Title"
+    }
+  ],
+  "pinData": {
+    "When clicking ‘Test workflow’": [
+      {
+        "json": {
+          "youtubeUrl": "https://www.youtube.com/watch?v=eOS1TLqA4tY"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-05-10T12:42:24.392Z",
+  "versionId": "95b3daad-3c18-44f4-82b9-8a9356e44368"
+}
