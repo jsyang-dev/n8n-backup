@@ -1,0 +1,569 @@
+{
+  "active": false,
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Bypass",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bypass": {
+      "main": [
+        [
+          {
+            "node": "Get Webpage",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Summerization",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Bypass",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Title": {
+      "main": [
+        [
+          {
+            "node": "Sanitize Title",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summerization": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          },
+          {
+            "node": "Tag Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Upload to OneDrive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload to OneDrive": {
+      "main": [
+        [
+          {
+            "node": "Return Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Tag Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tag Extractor": {
+      "main": [
+        [
+          {
+            "node": "Reformat Tags",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reformat Tags": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Sanitize Title": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Webpage": {
+      "main": [
+        [
+          {
+            "node": "Extract Title",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2025-05-06T10:14:03.360Z",
+  "id": "qVoJFwPwOc3VBRs8",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "웹 클리퍼",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "webUrl"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -760,
+        0
+      ],
+      "id": "5ef66b3a-c9fe-4deb-8c94-68df3f6445cc",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "40d11148-e43b-4c76-8850-a71aafe6c233",
+              "name": "webUrl",
+              "value": "={{ $json.webUrl }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -540,
+        0
+      ],
+      "id": "ac4e0722-1451-42f2-aeb5-14cbd3d86909",
+      "name": "Bypass"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -760,
+        -160
+      ],
+      "id": "901513cd-ac15-45ce-8e8a-e80dfb43116f",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "content": "## 4. 파일 생성 및 업로드",
+        "height": 260,
+        "width": 880,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        340,
+        -60
+      ],
+      "id": "22730a90-8433-4e16-b6d9-cc2abade0354",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "title",
+              "cssSelector": "title"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        -80,
+        -140
+      ],
+      "id": "d74d70af-1829-4715-8141-1476281b8c66",
+      "name": "Extract Title"
+    },
+    {
+      "parameters": {
+        "content": "## 1. 웹 정보 가져오기",
+        "height": 220,
+        "width": 660
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -360,
+        -200
+      ],
+      "id": "192ba85d-aecc-42e9-bf2c-fcf6e20c6287",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=아래 템플릿을 참고해서 스크랩된 글을 요약해주세요:\n\n**템플릿:**\n이 글은 [저자명/배경]이 작성한 [주제]에 대한 [가이드/분석/경험담] 입니다. 주요 내용은 다음과 같습니다:\n\n## 주요 내용\n\n1. **[카테고리1]**: [핵심 내용]\n   - [세부사항1]\n   - [세부사항2]\n\n2. **[카테고리2]**: [핵심 내용]\n   - [세부사항1]\n   - [세부사항2]\n\n[...반복...]\n\n이 글은 [글의 특징]을 담고 있어, [대상 독자]에게 [가치/유용성]이 될 것 같습니다.\n\n**주의사항:**\n- 저자의 주관적 의견은 \"~라고 합니다\" 형태로 표현\n- 기술적 용어는 한글과 영어를 병기\n- 각 카테고리는 논리적 순서로 배열\n- 문단 구조는 마크다운 형식을 활용하여 체계적인 구조로 정리해주세요.\n- 마크다운의 헤딩을 적극적으로 사용하되, \"##\"부터 사용해주세요.\n- \"---\"으로 문단을 구분하는 방법은 절대로 사용하지 말아주세요.\n\n---\n\nurl: {{ $json.webUrl }}"
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0.1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -300,
+        140
+      ],
+      "id": "8a75da66-3a60-4ffa-b4ff-01e672b05afa",
+      "name": "Summerization",
+      "credentials": {
+        "openAiApi": {
+          "id": "mNBU5lSqo1M9WYgW",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "numberInputs": 4
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        400,
+        0
+      ],
+      "id": "5fdba4f2-b3d7-4b90-9316-3a2da22f2e9e",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "content": "## 2. 웹 요약하기",
+        "height": 220,
+        "width": 660
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -360,
+        80
+      ],
+      "id": "7f52db8e-ac73-4f72-8a50-658f1e8c1ba7",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "webUrl",
+              "renameField": true,
+              "outputFieldName": "url"
+            },
+            {
+              "fieldToAggregate": "title",
+              "renameField": true,
+              "outputFieldName": "title"
+            },
+            {
+              "fieldToAggregate": "sanitizedTitle",
+              "renameField": true,
+              "outputFieldName": "sanitizedTitle"
+            },
+            {
+              "fieldToAggregate": "message.content",
+              "renameField": true,
+              "outputFieldName": "summary"
+            },
+            {
+              "fieldToAggregate": "tags",
+              "renameField": true,
+              "outputFieldName": "tags"
+            },
+            {
+              "fieldToAggregate": "now",
+              "renameField": true,
+              "outputFieldName": "now"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        620,
+        20
+      ],
+      "id": "2a3a91b7-baea-4be3-a0a8-88c924ca2470",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "fileName": "={{ $json.sanitizedTitle[0] }}.md",
+        "parentId": "22EFFF58BAED9055%21se596f05d21054cb589d1ef855758301d",
+        "fileContent": "=---\ntype:\n  - Web\nauthor:\n  - \"[[양정수]]\"\naliases: \nCMDS: \ntags: \n{{ $json.tags[0] }}\nlink: {{ $json.url[0] }}\nviewed: false\ncreated: {{ $json.now[0] }}\nupdated: {{ $json.now[0] }}\n---\n# 웹사이트\n\n[{{ $json.title[0] }}]({{ $json.url[0] }})\n\n# 요약\n{{ $json.summary[0] }}"
+      },
+      "type": "n8n-nodes-base.microsoftOneDrive",
+      "typeVersion": 1,
+      "position": [
+        840,
+        20
+      ],
+      "id": "91f81bf0-3e8c-44f3-b66d-8a3c86ec43e2",
+      "name": "Upload to OneDrive",
+      "credentials": {
+        "microsoftOneDriveOAuth2Api": {
+          "id": "0vO5M9iA70ggMAdX",
+          "name": "Microsoft Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d60417ca-28e7-437a-a546-923ee9710068",
+              "name": "name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "d58b67bd-efa6-4460-b94e-d11ada192dfb",
+              "name": "parentReference.path",
+              "value": "={{ $json.parentReference.path }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1060,
+        20
+      ],
+      "id": "6afad2b6-ba76-4681-b6cb-12c9bb698e4c",
+      "name": "Return Fields"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1"
+        },
+        "options": {
+          "temperature": 0.1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -280,
+        560
+      ],
+      "id": "86dcb185-b1b5-479f-8907-7563557e00f8",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "mNBU5lSqo1M9WYgW",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.message.content }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "tags",
+              "description": "Tags that can be fetched from the transcript.\nExtract 1 to 5 most relevant tags. It is not necessary to extract exactly 5.\nTags must be words without spaces.",
+              "required": true
+            }
+          ]
+        },
+        "options": {
+          "systemPromptTemplate": "You are an expert extraction algorithm.\nOnly extract relevant information from the text.\nIf you do not know the value of an attribute asked to extract, you may omit the attribute's value."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1,
+      "position": [
+        -300,
+        400
+      ],
+      "id": "666fcb98-8d31-4cbd-8c6b-3340a3d52a59",
+      "name": "Tag Extractor"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 입력을 쉼표로 분할\nconst tags = $input.first().json.output.tags.split(',').map(item => item.trim());\n  \n// 각 키워드에 대해 \"- \" 접두사 추가\nconst formattedTags = tags.map(keyword => `  - ${keyword}`).join('\\n');\n  \n// 결과 반환\nreturn [{\n  json: {\n    tags: formattedTags\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        140,
+        400
+      ],
+      "id": "6fce17b9-61a9-48cc-94dd-fb6d26614540",
+      "name": "Reformat Tags"
+    },
+    {
+      "parameters": {
+        "content": "## 3. 태그 추출하기",
+        "height": 340,
+        "width": 660
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -360,
+        340
+      ],
+      "id": "6383ea73-abad-423b-85d6-47ed859b980f",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. 제목의 특수문자 제거\nlet title = $input.first().json.title\nconst protocols = /https?:\\/\\//g;\nconst invalidChars = /[\\\\\\/:*?\"<>|`]/g;\nlet sanitizedTitle;\n\nif (title === \"\") {\n  title = $('Bypass').first().json.webUrl;\n  sanitizedTitle = title.replace(protocols, \"\").replace(invalidChars, \"_\");\n} else {\n  sanitizedTitle = title.replace(invalidChars, \"_\");\n}\n\n// 2. 현재 날짜 구하기\nconst now = new Date();\n\n// 날짜 구성 요소 추출\nconst year = now.getFullYear();\nconst month = String(now.getMonth() + 1).padStart(2, '0');\nconst date = String(now.getDate()).padStart(2, '0');\n\n// 요일 추출 및 변환\nconst days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];\nconst day = days[now.getDay()];\n\n// 시간 구성 요소 추출\nconst hours = String(now.getHours()).padStart(2, '0');\nconst minutes = String(now.getMinutes()).padStart(2, '0');\nconst seconds = String(now.getSeconds()).padStart(2, '0');\n\nreturn [{\n  json: {\n    title: title,\n    sanitizedTitle: sanitizedTitle,\n    now: `${year}-${month}-${date} ${day}, ${hours}:${minutes}:${seconds}`\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        140,
+        -140
+      ],
+      "id": "ab528063-62e3-4e91-a2d7-62f3a85240d2",
+      "name": "Sanitize Title"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.webUrl }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -300,
+        -140
+      ],
+      "id": "b17d1068-4fa1-47ad-8b8f-09e76e6eec88",
+      "name": "Get Webpage"
+    }
+  ],
+  "pinData": {
+    "When clicking ‘Test workflow’": [
+      {
+        "json": {
+          "webUrl": "https://github.com/voideditor/void"
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-06-16T01:08:21.715Z",
+  "versionId": "2641a056-87c3-4c27-83a1-7461a7de7193"
+}
